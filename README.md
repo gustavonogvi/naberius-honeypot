@@ -1,24 +1,44 @@
-﻿# Simple Honeypot + Alert Dashboard
+# honeypot
 
-## Summary
-Portfolio project for SOC/Blue Team: a simple honeypot service (e.g.: SSH on port 22) that captures connection attempts and displays alerts on a web dashboard with enriched data (IP, timestamp, geolocation, and attack type).
+A fake SSH server that logs connection attempts and stores them with geolocation data. Built as a portfolio project while studying Blue Team / SOC fundamentals.
 
-## Why this project
-- Shows the full cycle: log collection -> analysis -> visualization.
-- Demonstrates skills in backend, data persistence, and security data handling.
+## what it does
 
-## Stack
-- Python
-- Flask or FastAPI
+Runs a TCP server on port 2222 that pretends to be an SSH service. When someone connects, it sends back a real SSH banner and records the attempt — IP, timestamp, payload, country, city, and ASN — into a SQLite database.
+
+Eventually it'll have a web dashboard to visualize the data.
+
+## stack
+
+- Python (sockets, sqlite3)
+- Flask (API, in progress)
 - SQLite
-- Simple frontend (HTML/CSS/JS)
+- ip-api.com for geolocation
 
-## Target features
-- Capture connection attempts on a fake service.
-- Record IP, timestamp, and attempt details.
-- Enrich data with IP geolocation.
-- API for querying alerts.
-- Dashboard with list, filters, and basic statistics.
+## running locally
 
-## Status
-In planning. See `PLANEJAMENTO.md`.
+```bash
+uv venv && .venv\Scripts\activate
+uv sync
+python db/init_db.py
+python honeypot/server.py
+```
+
+Then connect with telnet to test:
+```bash
+telnet localhost 2222
+```
+
+## project structure
+
+```
+honeypot/       # the fake server
+db/             # database setup
+api/            # REST API (in progress)
+dashboard/      # web interface (in progress)
+data/           # sqlite database (gitignored)
+```
+
+## status
+
+Core honeypot working. API and dashboard in progress.
