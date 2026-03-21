@@ -7,3 +7,5 @@ __pycache__/
 *.pyc
 
 .env
+
+GUIA_HU13_17.md
