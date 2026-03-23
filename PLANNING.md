@@ -33,9 +33,10 @@ The long-term goal is to evolve from a low interaction honeypot into a medium in
 
 > Expose collected data through a REST API.
 
+
 **HU-06** ✅ — As a developer, I want a `GET /events` endpoint that returns all recorded events so that the dashboard can consume them.
 
-**HU-07** — As a developer, I want to be able to filter events by IP or date so that I can query specific attack windows.
+**HU-07** ✅ — As a developer, I want to be able to filter events by IP or date so that I can query specific attack windows.
 
 ---
 
@@ -47,7 +48,7 @@ The long-term goal is to evolve from a low interaction honeypot into a medium in
 
 **HU-09** ✅ — As a analyst, I want basic statistics (total events, top IPs, top countries) so that I can identify patterns at a glance.
 
-**HU-10** — As a analyst, I want to filter the event list by IP or time range so that I can focus on a specific incident.
+**HU-10** ✅ — As a analyst, I want to filter the event list by IP or time range so that I can focus on a specific incident.
 
 ---
 
