@@ -1,18 +1,19 @@
 import socket
 import datetime
-import json
 import sqlite3
+import os
 import requests
 
 HOST = "0.0.0.0"
 PORT = 2222
 
-DB_PATH = "data/honeypot.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "..", "data", "honeypot.db")
 GEO_API = "http://ip-api.com/json/"
 
 def get_geo(ip):
     try:
-        response = requests.get(GEO_API.format(ip), timeout=5)
+        response = requests.get(f"{GEO_API}{ip}", timeout=5)
         data = response.json()
         if data.get("status") == "success":
             return {

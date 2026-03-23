@@ -27,8 +27,8 @@ def init_db():
         )
     """)
 
-    # Migração segura: adiciona as colunas novas se o banco já existia
-    # Se a coluna já existe, o erro é ignorado silenciosamente
+    # Safe migration: adds new columns if the database already existed
+    # If the column already exists, the error is silently ignored
     for column, col_type in [
         ("username", "TEXT"),
         ("password", "TEXT"),
@@ -37,7 +37,7 @@ def init_db():
         try:
             cursor.execute(f"ALTER TABLE events ADD COLUMN {column} {col_type}")
         except sqlite3.OperationalError:
-            pass  # coluna já existe, tudo certo
+            pass  # column already exists, that's fine
 
     conn.commit()
     conn.close()
