@@ -38,5 +38,34 @@ def get_events():
     conn.close()
     return jsonify([dict(row) for row in rows])
 
+@app.route("/stats/top-credentials")
+def top_credentials():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT username, COUNT(*) as count
+        FROM events
+        WHERE username IS NOT NULL
+        GROUP BY username
+        ORDER BY count DESC
+        LIMIT 10
+    """)
+    usernames = [{"value": row[0], "count": row[1]} for row in cursor.fetchall()]
+
+    cursor.execute("""
+        SELECT password, COUNT(*) as count
+        FROM events
+        WHERE password IS NOT NULL
+        GROUP BY password
+        ORDER BY count DESC
+        LIMIT 10
+    """)
+    passwords = [{"value": row[0], "count": row[1]} for row in cursor.fetchall()]
+
+    conn.close()
+    return jsonify({"usernames": usernames, "passwords": passwords})
+
+
 if __name__ == "__main__":
     app.run(debug=True)
