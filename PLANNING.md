@@ -1,9 +1,9 @@
 # Planning
 
 ## Overview
-Build a basic honeypot (e.g.: SSH on port 22) that records connection attempts and displays a web dashboard with alerts and basic analyses.
+Naberius is a medium interaction SSH honeypot that captures and analyzes unauthorized access attempts. It performs a real SSH handshake, lures attackers into submitting credentials, and enriches every event with geolocation and fingerprint data.
 
-The long-term goal is to evolve from a low interaction honeypot into a medium interaction honeypot — one that simulates a real SSH session, tricks attackers into revealing credentials, and feeds that data into a threat intelligence pipeline.
+The long-term goal is to evolve into a full threat intelligence pipeline — detecting attack patterns, identifying known malicious actors, and surfacing actionable data for SOC analysis.
 
 ---
 
@@ -82,11 +82,11 @@ The long-term goal is to evolve from a low interaction honeypot into a medium in
 
 ---
 
-## EPIC 07 — Threat Intelligence (future)
+## EPIC 07 — Threat Intelligence
 
 > Turn raw events into actionable intelligence.
 
-**Context:** Once we have enough data, the goal is to identify patterns — repeated IPs, credential spraying campaigns, botnets — and export that data in formats used by real SOC tools.
+**Context:** Once we have enough data, the goal is to identify patterns — repeated IPs, credential spraying campaigns, botnets — and surface that data in formats useful for SOC analysis.
 
 **HU-19** [done] — As a analyst, I want to flag IPs that made more than N attempts in a given time window so that I can identify brute force campaigns.
 
@@ -95,6 +95,22 @@ The long-term goal is to evolve from a low interaction honeypot into a medium in
 **HU-21** [done] — As a analyst, I want to see the top 10 most attempted usernames and passwords so that I can understand what credentials attackers prioritize.
 
 **HU-22** — As a analyst, I want to receive an alert when a new event arrives so that I don't have to keep the dashboard open to notice activity.
+
+**HU-23** — As a analyst, I want to detect credential spraying — same username across many different IPs — so that I can identify coordinated campaigns.
+
+**HU-24** — As a analyst, I want known HASSH fingerprints (Hydra, Medusa, Metasploit) to be labeled automatically so that I can identify the attack tool without manual lookup.
+
+---
+
+## EPIC 08 — External Intelligence
+
+> Cross-reference captured data with public threat feeds to add context beyond what we collect ourselves.
+
+**HU-25** — As a analyst, I want flagged IPs to be checked against AbuseIPDB so that I can see if they are already known malicious actors.
+
+**HU-26** — As a analyst, I want a timeline chart of attempts per hour on the dashboard so that I can identify attack windows and spikes.
+
+**HU-27** — As a analyst, I want a world map showing attack origins so that I can visualize the geographic distribution of threats.
 
 ---
 
