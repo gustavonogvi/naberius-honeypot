@@ -4,7 +4,7 @@ A fake SSH server that logs connection attempts and stores them with geolocation
 
 ## what it does
 
-Runs a TCP server on port 2222 that pretends to be an SSH service. When someone connects, it sends back a real SSH banner and records the attempt — IP, timestamp, payload, country, city, and ASN — into a SQLite database. A web dashboard reads from the API and displays the events in real time.
+Runs a medium interaction SSH honeypot on port 2222. It performs a real SSH handshake using `paramiko`, presents a fake login prompt, and captures credentials — username, password, and SSH client version — from anyone who connects. All events are enriched with geolocation data and stored in SQLite. A web dashboard reads from the API and displays everything in real time.
 
 The logo is an incomplete arc. The attacker never completes the cycle.
 
@@ -13,15 +13,17 @@ The logo is an incomplete arc. The attacker never completes the cycle.
 ```
 attacker connects to port 2222
         ↓
-server sends SSH banner (looks real)
+real SSH handshake (paramiko — RSA key, algorithm negotiation)
         ↓
-attacker sends data (username, password attempt, etc.)
+server banner: SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.6
         ↓
-honeypot captures IP + payload + timestamp
+attacker types username + password
         ↓
-geolocation API enriches the IP (country, city, ASN)
+login always fails — credentials captured silently
         ↓
-event saved to SQLite
+geolocation API enriches the source IP (country, city, ASN)
+        ↓
+event saved to SQLite (ip, credentials, client version, geo)
         ↓
 dashboard reads from API and displays everything
 ```
@@ -29,6 +31,7 @@ dashboard reads from API and displays everything
 ## stack
 
 - Python — core server, database, API
+- paramiko — SSH protocol implementation (handshake, auth handling)
 - SQLite — local event storage, no external database needed
 - Flask — REST API that serves the events as JSON
 - ip-api.com — free geolocation API, no key required
@@ -73,7 +76,7 @@ python api/app.py
 
 **Terminal 3 — test a connection (optional):**
 ```bash
-telnet localhost 2222
+ssh -p 2222 -o StrictHostKeyChecking=no testuser@localhost
 ```
 
 Then open `dashboard/index.html` in your browser.
@@ -107,11 +110,14 @@ honeypot/
     "ip": "1.2.3.4",
     "port": 2222,
     "timestamp": "2026-03-20T19:17:36.632995",
-    "payload": "root\r\n",
+    "payload": "SSH-2.0-libssh2_1.10.0",
     "country": "China",
     "city": "Beijing",
     "region": "Beijing",
-    "asn": "AS4134 Chinanet"
+    "asn": "AS4134 Chinanet",
+    "username": "root",
+    "password": "123456",
+    "client_version": "SSH-2.0-libssh2_1.10.0"
   }
 ]
 ```
@@ -130,7 +136,8 @@ honeypot/
 ## what i learned
 
 - How TCP sockets work at a low level in Python
-- How SSH identifies itself to clients (protocol banners)
+- How the SSH protocol works: handshake, key exchange, authentication flow
+- How to implement a server-side SSH interface with paramiko
 - How geolocation APIs enrich network data
 - The basic data flow of a SIEM: collect → enrich → store → visualize
-- Why honeypots are useful for threat intelligence
+- Why honeypots are useful for threat intelligence and credential collection

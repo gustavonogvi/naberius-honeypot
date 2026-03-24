@@ -62,21 +62,21 @@ The long-term goal is to evolve from a low interaction honeypot into a medium in
 
 ---
 
-## EPIC 06 — Medium Interaction (next goal)
+## EPIC 06 — Medium Interaction [done]
 
 > Evolve the honeypot from passive listener to active trap — simulate a real SSH session to collect credentials and attacker behavior.
 
 **Context:** Right now the honeypot is a *low interaction* honeypot. It listens, sends a banner, and records what arrives. A real attacker or bot using an SSH client will not interact further — it expects a proper SSH handshake. A *medium interaction* honeypot fakes that handshake, lures the attacker into typing credentials, and captures everything.
 
-**HU-13** — As a analyst, I want the honeypot to perform a real SSH handshake using `paramiko` so that automated SSH clients (bots, scanners) connect fully instead of dropping the connection.
+**HU-13** [done] — As a analyst, I want the honeypot to perform a real SSH handshake using `paramiko` so that automated SSH clients (bots, scanners) connect fully instead of dropping the connection.
 
-**HU-14** — As a analyst, I want the server to present a fake login prompt so that attackers type their username and password.
+**HU-14** [done] — As a analyst, I want the server to present a fake login prompt so that attackers type their username and password.
 
-**HU-15** — As a analyst, I want every credential attempt (username + password) to be stored in the database so that I can build a list of real credentials used in the wild.
+**HU-15** [done] — As a analyst, I want every credential attempt (username + password) to be stored in the database so that I can build a list of real credentials used in the wild.
 
-**HU-16** — As a analyst, I want the login to always fail after a few attempts so that the attacker keeps trying and reveals more credential combinations.
+**HU-16** [done] — As a analyst, I want the login to always fail after a few attempts so that the attacker keeps trying and reveals more credential combinations.
 
-**HU-17** — As a analyst, I want the honeypot to record which SSH client and version the attacker is using so that I can fingerprint the tools they use.
+**HU-17** [done] — As a analyst, I want the honeypot to record which SSH client and version the attacker is using so that I can fingerprint the tools they use.
 
 ---
 
