@@ -90,7 +90,7 @@ The long-term goal is to evolve from a low interaction honeypot into a medium in
 
 **HU-19** [done] — As a analyst, I want to flag IPs that made more than N attempts in a given time window so that I can identify brute force campaigns.
 
-**HU-20** — As a analyst, I want to export the event list as CSV so that I can import it into tools like Splunk or Excel for further analysis.
+**HU-20** [wontdo] — As a analyst, I want to export the event list as CSV so that I can import it into tools like Splunk or Excel for further analysis.
 
 **HU-21** [done] — As a analyst, I want to see the top 10 most attempted usernames and passwords so that I can understand what credentials attackers prioritize.
 
