@@ -92,7 +92,7 @@ The long-term goal is to evolve from a low interaction honeypot into a medium in
 
 **HU-20** — As a analyst, I want to export the event list as CSV so that I can import it into tools like Splunk or Excel for further analysis.
 
-**HU-21** — As a analyst, I want to see the top 10 most attempted usernames and passwords so that I can understand what credentials attackers prioritize.
+**HU-21** [done] — As a analyst, I want to see the top 10 most attempted usernames and passwords so that I can understand what credentials attackers prioritize.
 
 **HU-22** — As a analyst, I want to receive an alert when a new event arrives so that I don't have to keep the dashboard open to notice activity.
 
