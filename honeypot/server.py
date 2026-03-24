@@ -7,6 +7,12 @@ import os
 import requests
 import paramiko
 
+# TODO: capture HASSH fingerprint — hash of the client's preferred algorithms
+# (kex, encryption, mac, compression) announced during SSH negotiation.
+# Same tool always produces the same hash regardless of the version banner,
+# which makes it useful for identifying attack frameworks and malware families.
+# Reference: https://github.com/salesforce/hassh
+
 HOST = "0.0.0.0"
 PORT = 2222
 DB_PATH = "data/honeypot.db"
