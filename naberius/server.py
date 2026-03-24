@@ -11,7 +11,7 @@ import paramiko
 
 HOST = "0.0.0.0"
 PORT = 2222
-DB_PATH = "data/honeypot.db"
+DB_PATH = "data/naberius.db"
 HOST_KEY_PATH = "data/host_key"
 GEO_API = "http://ip-api.com/json/{}"
 AUTH_FAIL_DELAY = 0.5

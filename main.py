@@ -1,5 +1,5 @@
 def main():
-    print("Hello from honeypot!")
+    print("Hello from naberius!")
 
 
 if __name__ == "__main__":
