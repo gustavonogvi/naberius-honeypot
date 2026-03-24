@@ -78,6 +78,8 @@ The long-term goal is to evolve from a low interaction honeypot into a medium in
 
 **HU-17** [done] — As a analyst, I want the honeypot to record which SSH client and version the attacker is using so that I can fingerprint the tools they use.
 
+**HU-18** [done] — As a analyst, I want the honeypot to compute a HASSH fingerprint from the client's SSH algorithm negotiation so that I can identify attack tools even when they spoof their version banner.
+
 ---
 
 ## EPIC 07 — Threat Intelligence (future)
@@ -86,13 +88,13 @@ The long-term goal is to evolve from a low interaction honeypot into a medium in
 
 **Context:** Once we have enough data, the goal is to identify patterns — repeated IPs, credential spraying campaigns, botnets — and export that data in formats used by real SOC tools.
 
-**HU-18** — As a analyst, I want to flag IPs that made more than N attempts in a given time window so that I can identify brute force campaigns.
+**HU-19** — As a analyst, I want to flag IPs that made more than N attempts in a given time window so that I can identify brute force campaigns.
 
-**HU-19** — As a analyst, I want to export the event list as CSV so that I can import it into tools like Splunk or Excel for further analysis.
+**HU-20** — As a analyst, I want to export the event list as CSV so that I can import it into tools like Splunk or Excel for further analysis.
 
-**HU-20** — As a analyst, I want to see the top 10 most attempted usernames and passwords so that I can understand what credentials attackers prioritize.
+**HU-21** — As a analyst, I want to see the top 10 most attempted usernames and passwords so that I can understand what credentials attackers prioritize.
 
-**HU-21** — As a analyst, I want to receive an alert when a new event arrives so that I don't have to keep the dashboard open to notice activity.
+**HU-22** — As a analyst, I want to receive an alert when a new event arrives so that I don't have to keep the dashboard open to notice activity.
 
 ---
 

@@ -4,7 +4,7 @@ A fake SSH server that logs connection attempts and stores them with geolocation
 
 ## what it does
 
-Runs a medium interaction SSH honeypot on port 2222. It performs a real SSH handshake using `paramiko`, presents a fake login prompt, and captures credentials — username, password, and SSH client version — from anyone who connects. All events are enriched with geolocation data and stored in SQLite. A web dashboard reads from the API and displays everything in real time.
+Runs a medium interaction SSH honeypot on port 2222. It performs a real SSH handshake using `paramiko`, presents a fake login prompt, and captures credentials — username, password, SSH client version, and HASSH fingerprint — from anyone who connects. All events are enriched with geolocation data and stored in SQLite. A web dashboard reads from the API and displays everything in real time.
 
 The logo is an incomplete arc. The attacker never completes the cycle.
 
@@ -17,13 +17,15 @@ real SSH handshake (paramiko — RSA key, algorithm negotiation)
         ↓
 server banner: SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.6
         ↓
+HASSH fingerprint computed from client's algorithm negotiation (kex;enc;mac;compression → MD5)
+        ↓
 attacker types username + password
         ↓
 login always fails — credentials captured silently
         ↓
 geolocation API enriches the source IP (country, city, ASN)
         ↓
-event saved to SQLite (ip, credentials, client version, geo)
+event saved to SQLite (ip, credentials, client version, HASSH, geo)
         ↓
 dashboard reads from API and displays everything
 ```
@@ -117,7 +119,9 @@ honeypot/
     "asn": "AS4134 Chinanet",
     "username": "root",
     "password": "123456",
-    "client_version": "SSH-2.0-libssh2_1.10.0"
+    "client_version": "SSH-2.0-libssh2_1.10.0",
+    "hassh": "a2de0f306611e0957be704f5b0e35a82",
+    "hassh_algorithms": "curve25519-sha256,...;aes128-ctr,...;hmac-sha2-256,...;none,..."
   }
 ]
 ```
@@ -138,6 +142,7 @@ honeypot/
 - How TCP sockets work at a low level in Python
 - How the SSH protocol works: handshake, key exchange, authentication flow
 - How to implement a server-side SSH interface with paramiko
+- How HASSH fingerprinting works: hashing the client's algorithm negotiation (KEXINIT) to identify tools even when they spoof version banners
 - How geolocation APIs enrich network data
 - The basic data flow of a SIEM: collect → enrich → store → visualize
 - Why honeypots are useful for threat intelligence and credential collection
