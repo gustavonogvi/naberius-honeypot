@@ -88,7 +88,7 @@ The long-term goal is to evolve from a low interaction honeypot into a medium in
 
 **Context:** Once we have enough data, the goal is to identify patterns — repeated IPs, credential spraying campaigns, botnets — and export that data in formats used by real SOC tools.
 
-**HU-19** — As a analyst, I want to flag IPs that made more than N attempts in a given time window so that I can identify brute force campaigns.
+**HU-19** [done] — As a analyst, I want to flag IPs that made more than N attempts in a given time window so that I can identify brute force campaigns.
 
 **HU-20** — As a analyst, I want to export the event list as CSV so that I can import it into tools like Splunk or Excel for further analysis.
 

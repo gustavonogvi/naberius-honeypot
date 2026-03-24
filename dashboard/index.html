@@ -237,6 +237,40 @@
       color: #333;
       letter-spacing: 0.05em;
     }
+
+    .brute-force {
+      border-bottom: 1px solid #1a1a1a;
+      padding: 28px 48px;
+    }
+
+    .brute-force .label {
+      font-size: 11px;
+      color: #888;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .bf-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .bf-list li {
+      background: #0e0e0e;
+      border: 1px solid #1e1e1e;
+      padding: 6px 12px;
+      font-size: 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .bf-ip { color: #fff; font-family: monospace; }
+    .bf-count { color: #555; font-size: 11px; }
+    .bf-location { color: #666; }
   </style>
 </head>
 <body>
@@ -281,6 +315,13 @@
         <li><span class="cred-empty">no data</span></li>
       </ul>
     </div>
+  </div>
+
+  <div class="brute-force">
+    <div class="label">Brute Force — last 60 min / threshold 5</div>
+    <ul class="bf-list" id="bf-list">
+      <li><span class="cred-empty">no data</span></li>
+    </ul>
   </div>
 
   <div class="filters">
@@ -395,10 +436,32 @@
       render("top-passwords", data.passwords, "no data");
     }
 
+    async function loadBruteForce() {
+      const res  = await fetch("http://localhost:5000/stats/brute-force");
+      const data = await res.json();
+      const el   = document.getElementById("bf-list");
+
+      if (!data.length) {
+        el.innerHTML = `<li><span class="cred-empty">no flagged IPs</span></li>`;
+        return;
+      }
+
+      el.innerHTML = data.map(r => {
+        const location = [r.city, r.country].filter(Boolean).join(", ") || "—";
+        return `<li>
+          <span class="bf-ip">${r.ip}</span>
+          <span class="bf-count">${r.attempts}x</span>
+          <span class="bf-location">${location}</span>
+        </li>`;
+      }).join("");
+    }
+
     loadEvents();
     loadTopCredentials();
+    loadBruteForce();
     setInterval(loadEvents, 10000);
     setInterval(loadTopCredentials, 30000);
+    setInterval(loadBruteForce, 30000);
   </script>
 
 </body>

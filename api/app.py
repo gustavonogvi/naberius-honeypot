@@ -38,6 +38,28 @@ def get_events():
     conn.close()
     return jsonify([dict(row) for row in rows])
 
+@app.route("/stats/brute-force")
+def brute_force():
+    threshold = int(request.args.get("threshold", 5))
+    window    = int(request.args.get("window", 60))
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT ip, COUNT(*) as attempts, MAX(timestamp) as last_seen,
+               MAX(country) as country, MAX(city) as city
+        FROM events
+        WHERE timestamp >= datetime('now', ? || ' minutes')
+        GROUP BY ip
+        HAVING attempts >= ?
+        ORDER BY attempts DESC
+    """, (f"-{window}", threshold))
+    rows = [{"ip": r[0], "attempts": r[1], "last_seen": r[2],
+             "country": r[3], "city": r[4]} for r in cursor.fetchall()]
+    conn.close()
+    return jsonify(rows)
+
+
 @app.route("/stats/top-credentials")
 def top_credentials():
     conn = sqlite3.connect(DB_PATH)
