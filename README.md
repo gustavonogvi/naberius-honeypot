@@ -8,7 +8,6 @@ Built as a portfolio project while studying Blue Team / SOC fundamentals.
 
 When someone connects, Naberius performs a real SSH handshake using `paramiko` — complete with RSA key exchange and algorithm negotiation — then presents a fake login prompt. Every attempt is logged: username, password, SSH client version, HASSH fingerprint, and source IP enriched with geolocation data. Everything is stored in SQLite and visualized in a web dashboard in real time.
 
-The name comes from Naberius, a demon in demonology known for deceiving and misleading. The logo is an incomplete arc. The attacker never completes the cycle.
 
 ## how it works
 
