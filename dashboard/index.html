@@ -231,6 +231,9 @@
           <th>Location</th>
           <th>ASN</th>
           <th>Payload</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Client</th>
         </tr>
       </thead>
       <tbody id="events-body">
@@ -297,6 +300,9 @@
             <td class="location">${location}</td>
             <td class="location">${e.asn || "—"}</td>
             <td class="payload">${JSON.stringify(e.payload)}</td>
+            <td class="username">${e.username || "—"}</td>
+            <td class="password">${e.password || "—"}</td>
+            <td class="client">${e.client_version || "—"}</td>
           </tr>`;
       }).join("");
     }
