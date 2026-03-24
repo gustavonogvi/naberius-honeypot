@@ -23,7 +23,9 @@ def init_db():
             asn            TEXT,
             username       TEXT,
             password       TEXT,
-            client_version TEXT
+            client_version TEXT,
+            hassh          TEXT,
+            hassh_algorithms TEXT
         )
     """)
 
@@ -33,6 +35,8 @@ def init_db():
         ("username", "TEXT"),
         ("password", "TEXT"),
         ("client_version", "TEXT"),
+        ("hassh", "TEXT"),
+        ("hassh_algorithms", "TEXT"),
     ]:
         try:
             cursor.execute(f"ALTER TABLE events ADD COLUMN {column} {col_type}")

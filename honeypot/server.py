@@ -1,3 +1,4 @@
+import hashlib
 import socket
 import threading
 import time
@@ -7,11 +8,6 @@ import os
 import requests
 import paramiko
 
-# TODO: capture HASSH fingerprint — hash of the client's preferred algorithms
-# (kex, encryption, mac, compression) announced during SSH negotiation.
-# Same tool always produces the same hash regardless of the version banner,
-# which makes it useful for identifying attack frameworks and malware families.
-# Reference: https://github.com/salesforce/hassh
 
 HOST = "0.0.0.0"
 PORT = 2222
@@ -44,7 +40,8 @@ def get_geo(ip):
         pass
     return {"country": None, "city": None, "region": None, "asn": None}
 
-def log_event(ip, port, payload, username=None, password=None, client_version=None):
+def log_event(ip, port, payload, username=None, password=None, client_version=None,
+              hassh=None, hassh_algorithms=None):
     timestamp = datetime.datetime.now().isoformat()
     geo = get_geo(ip)
 
@@ -53,18 +50,45 @@ def log_event(ip, port, payload, username=None, password=None, client_version=No
     cursor.execute(
         """INSERT INTO events
            (ip, port, timestamp, payload, country, city, region, asn,
-            username, password, client_version)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            username, password, client_version, hassh, hassh_algorithms)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         (
             ip, port, timestamp, payload,
             geo["country"], geo["city"], geo["region"], geo["asn"],
-            username, password, client_version,
+            username, password, client_version, hassh, hassh_algorithms,
         )
     )
     conn.commit()
     conn.close()
 
-    print(f"[{timestamp}] {ip} | {geo['country']} | user={username!r} pass={password!r}")
+    print(f"[{timestamp}] {ip} | {geo['country']} | user={username!r} pass={password!r} | hassh={hassh}")
+
+
+class HASHTransport(paramiko.Transport):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.hassh = None
+        self.hassh_algorithms = None
+
+    def _really_parse_kex_init(self, m, *args, **kwargs):
+        # _really_parse_kex_init is a private method — no public API exposes
+        # the remote client's raw algorithm list. If paramiko changes this
+        # method in a future version, hassh will silently return None.
+        # Pin paramiko to ~=4.0 in pyproject.toml to guard against that.
+        parsed = super()._really_parse_kex_init(m, *args, **kwargs)
+
+        if self.hassh is None:
+            alg_str = ";".join([
+                ",".join(parsed["kex_algo_list"]),
+                ",".join(parsed["client_encrypt_algo_list"]),
+                ",".join(parsed["client_mac_algo_list"]),
+                ",".join(parsed["client_compress_algo_list"]),
+            ])
+            self.hassh_algorithms = alg_str
+            self.hassh = hashlib.md5(alg_str.encode()).hexdigest()
+
+        return parsed
 
 
 class FakeSSHServer(paramiko.ServerInterface):
@@ -97,7 +121,7 @@ def handle_connection(conn, addr, host_key):
     ip = addr[0]
     fake_server = FakeSSHServer()
     try:
-        transport = paramiko.Transport(conn)
+        transport = HASHTransport(conn)
         transport.local_version = "SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.6"
         transport.add_server_key(host_key)
         transport.start_server(server=fake_server)
@@ -112,6 +136,8 @@ def handle_connection(conn, addr, host_key):
             username=fake_server.captured_username,
             password=fake_server.captured_password,
             client_version=client_version,
+            hassh=transport.hassh,
+            hassh_algorithms=transport.hassh_algorithms,
         )
 
     except Exception as e:
