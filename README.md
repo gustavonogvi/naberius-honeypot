@@ -1,4 +1,4 @@
-# honeypot
+# naberius
 
 A fake SSH server that logs connection attempts and stores them with geolocation data. Built as a portfolio project while studying Blue Team / SOC fundamentals.
 
@@ -48,18 +48,14 @@ dashboard reads from API and displays everything
 
 ```bash
 # clone the repo
-git clone https://github.com/gustavonogvi/honeypot.git
-cd honeypot
+git clone https://github.com/gustavonogvi/naberius-honeypot.git
+cd naberius-honeypot
 
 # create virtual environment and install dependencies
-uv venv
-.venv\Scripts\activate      # Windows
-# source .venv/bin/activate  # Linux/Mac
-
 uv sync
 
 # initialize the database
-python db/init_db.py
+uv run python db/init_db.py
 ```
 
 ## running
@@ -68,12 +64,12 @@ You need three terminals open at the same time.
 
 **Terminal 1 — honeypot server:**
 ```bash
-python honeypot/server.py
+uv run python naberius/server.py
 ```
 
 **Terminal 2 — API:**
 ```bash
-python api/app.py
+uv run python api/app.py
 ```
 
 **Terminal 3 — test a connection (optional):**
@@ -86,8 +82,8 @@ Then open `dashboard/index.html` in your browser.
 ## project structure
 
 ```
-honeypot/
-├── honeypot/
+naberius-honeypot/
+├── naberius/
 │   └── server.py       # fake SSH server, captures attempts
 ├── db/
 │   └── init_db.py      # creates the SQLite schema
@@ -96,7 +92,7 @@ honeypot/
 ├── dashboard/
 │   └── index.html      # web dashboard
 ├── data/
-│   └── honeypot.db     # generated at runtime, gitignored
+│   └── naberius.db     # generated at runtime, gitignored
 ├── pyproject.toml
 └── README.md
 ```
