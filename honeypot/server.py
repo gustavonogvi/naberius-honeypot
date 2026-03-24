@@ -66,6 +66,7 @@ class FakeSSHServer(paramiko.ServerInterface):
     def __init__(self):
         self.captured_username = None
         self.captured_password = None
+        self.auth_event = threading.Event()
 
     def check_channel_request(self, kind, chanid):
         if kind == "session":
@@ -75,6 +76,7 @@ class FakeSSHServer(paramiko.ServerInterface):
     def check_auth_password(self, username, password):
         self.captured_username = username
         self.captured_password = password
+        self.auth_event.set()
         time.sleep(AUTH_FAIL_DELAY)
         return paramiko.AUTH_FAILED
 
@@ -93,7 +95,7 @@ def handle_connection(conn, addr, host_key):
         transport.local_version = "SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.6"
         transport.add_server_key(host_key)
         transport.start_server(server=fake_server)
-        time.sleep(2)
+        fake_server.auth_event.wait(timeout=30)
 
         client_version = transport.remote_version
 
