@@ -1,12 +1,14 @@
 # naberius
 
-A fake SSH server that logs connection attempts and stores them with geolocation data. Built as a portfolio project while studying Blue Team / SOC fundamentals.
+Naberius is an SSH honeypot — a decoy server designed to attract and log unauthorized access attempts. It listens on port 2222, impersonates a real OpenSSH server, and silently captures everything: credentials, client fingerprints, and geolocation data. No attacker ever gets in.
+
+Built as a portfolio project while studying Blue Team / SOC fundamentals.
 
 ## what it does
 
-Runs a medium interaction SSH honeypot on port 2222. It performs a real SSH handshake using `paramiko`, presents a fake login prompt, and captures credentials — username, password, SSH client version, and HASSH fingerprint — from anyone who connects. All events are enriched with geolocation data and stored in SQLite. A web dashboard reads from the API and displays everything in real time.
+When someone connects, Naberius performs a real SSH handshake using `paramiko` — complete with RSA key exchange and algorithm negotiation — then presents a fake login prompt. Every attempt is logged: username, password, SSH client version, HASSH fingerprint, and source IP enriched with geolocation data. Everything is stored in SQLite and visualized in a web dashboard in real time.
 
-The logo is an incomplete arc. The attacker never completes the cycle.
+The name comes from Naberius, a demon in demonology known for deceiving and misleading. The logo is an incomplete arc. The attacker never completes the cycle.
 
 ## how it works
 
