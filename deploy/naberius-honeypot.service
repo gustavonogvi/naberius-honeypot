@@ -1,0 +1,14 @@
+[Unit]
+Description=Naberius SSH Honeypot
+After=network.target
+
+[Service]
+Type=simple
+User=naberius
+WorkingDirectory=/opt/naberius
+ExecStart=/opt/naberius/.venv/bin/python naberius/server.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
