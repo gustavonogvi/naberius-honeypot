@@ -42,7 +42,7 @@ dashboard reads from API and displays everything
 
 ## requirements
 
-- Python 3.11+
+- Python 3.12+
 - [uv](https://github.com/astral-sh/uv) (package manager)
 
 ## setup
@@ -92,6 +92,9 @@ naberius-honeypot/
 │   └── app.py          # Flask API, exposes /events
 ├── dashboard/
 │   └── index.html      # web dashboard
+├── deploy/
+│   ├── naberius-honeypot.service   # systemd unit for the honeypot
+│   └── naberius-api.service        # systemd unit for the API
 ├── data/
 │   └── naberius.db     # generated at runtime, gitignored
 ├── pyproject.toml
