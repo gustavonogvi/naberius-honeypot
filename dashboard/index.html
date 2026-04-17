@@ -384,7 +384,7 @@
       if (start) params.append("start", start.replace("T", " "));
       if (end)   params.append("end",   end.replace("T", " "));
 
-      const url = "http://localhost:5000/events" + (params.toString() ? "?" + params : "");
+      const url = "http://192.168.56.20:5000/events" + (params.toString() ? "?" + params : "");
       const res = await fetch(url);
       const events = await res.json();
 
@@ -418,7 +418,7 @@
     }
 
     async function loadTopCredentials() {
-      const res = await fetch("http://localhost:5000/stats/top-credentials");
+      const res = await fetch("http://192.168.56.20:5000/stats/top-credentials");
       const data = await res.json();
 
       const render = (listId, items, emptyMsg) => {
@@ -437,7 +437,7 @@
     }
 
     async function loadBruteForce() {
-      const res  = await fetch("http://localhost:5000/stats/brute-force");
+      const res  = await fetch("http://192.168.56.20:5000/stats/brute-force");
       const data = await res.json();
       const el   = document.getElementById("bf-list");
 
@@ -459,6 +459,7 @@
     loadEvents();
     loadTopCredentials();
     loadBruteForce();
+    // TODO: reduce polling intervals — 10s for events and 30s for stats feels slow during active attacks
     setInterval(loadEvents, 10000);
     setInterval(loadTopCredentials, 30000);
     setInterval(loadBruteForce, 30000);
