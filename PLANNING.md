@@ -40,7 +40,7 @@ The long-term goal is to evolve into a full threat intelligence pipeline — det
 
 ---
 
-## EPIC 04 — Dashboard [done]
+## EPIC 04 — Dashboard [done, one HU pending]
 
 > Visualize events and statistics in a web interface.
 
@@ -49,6 +49,8 @@ The long-term goal is to evolve into a full threat intelligence pipeline — det
 **HU-09** [done] — As a analyst, I want basic statistics (total events, top IPs, top countries) so that I can identify patterns at a glance.
 
 **HU-10** [done] — As a analyst, I want to filter the event list by IP or time range so that I can focus on a specific incident.
+
+**HU-28** [todo] — As a analyst, I want the dashboard to auto-refresh every few seconds so that new events appear without me having to reload the page.
 
 ---
 
@@ -82,7 +84,7 @@ The long-term goal is to evolve into a full threat intelligence pipeline — det
 
 ---
 
-## EPIC 07 — Threat Intelligence
+## EPIC 07 — Threat Intelligence [todo]
 
 > Turn raw events into actionable intelligence.
 
@@ -94,23 +96,23 @@ The long-term goal is to evolve into a full threat intelligence pipeline — det
 
 **HU-21** [done] — As a analyst, I want to see the top 10 most attempted usernames and passwords so that I can understand what credentials attackers prioritize.
 
-**HU-22** — As a analyst, I want to receive an alert when a new event arrives so that I don't have to keep the dashboard open to notice activity.
+**HU-22** [todo] — As a analyst, I want to receive an alert when a new event arrives so that I don't have to keep the dashboard open to notice activity.
 
-**HU-23** — As a analyst, I want to detect credential spraying — same username across many different IPs — so that I can identify coordinated campaigns.
+**HU-23** [todo] — As a analyst, I want to detect credential spraying — same username across many different IPs — so that I can identify coordinated campaigns.
 
-**HU-24** — As a analyst, I want known HASSH fingerprints (Hydra, Medusa, Metasploit) to be labeled automatically so that I can identify the attack tool without manual lookup.
+**HU-24** [todo] — As a analyst, I want known HASSH fingerprints (Hydra, Medusa, Metasploit) to be labeled automatically so that I can identify the attack tool without manual lookup.
 
 ---
 
-## EPIC 08 — External Intelligence
+## EPIC 08 — External Intelligence [todo]
 
 > Cross-reference captured data with public threat feeds to add context beyond what we collect ourselves.
 
-**HU-25** — As a analyst, I want flagged IPs to be checked against AbuseIPDB so that I can see if they are already known malicious actors.
+**HU-25** [todo] — As a analyst, I want flagged IPs to be checked against AbuseIPDB so that I can see if they are already known malicious actors.
 
-**HU-26** — As a analyst, I want a timeline chart of attempts per hour on the dashboard so that I can identify attack windows and spikes.
+**HU-26** [todo] — As a analyst, I want a timeline chart of attempts per hour on the dashboard so that I can identify attack windows and spikes.
 
-**HU-27** — As a analyst, I want a world map showing attack origins so that I can visualize the geographic distribution of threats.
+**HU-27** [todo] — As a analyst, I want a world map showing attack origins so that I can visualize the geographic distribution of threats.
 
 ---
 
