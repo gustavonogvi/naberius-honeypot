@@ -40,7 +40,7 @@ The long-term goal is to evolve into a full threat intelligence pipeline — det
 
 ---
 
-## EPIC 04 — Dashboard [done, one HU pending]
+## EPIC 04 — Dashboard [done]
 
 > Visualize events and statistics in a web interface.
 
@@ -50,7 +50,7 @@ The long-term goal is to evolve into a full threat intelligence pipeline — det
 
 **HU-10** [done] — As a analyst, I want to filter the event list by IP or time range so that I can focus on a specific incident.
 
-**HU-28** [todo] — As a analyst, I want the dashboard to auto-refresh every few seconds so that new events appear without me having to reload the page.
+**HU-28** [done] — As a analyst, I want the dashboard to auto-refresh every few seconds so that new events appear without me having to reload the page.
 
 ---
 

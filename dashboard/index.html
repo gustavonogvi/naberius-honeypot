@@ -459,10 +459,9 @@
     loadEvents();
     loadTopCredentials();
     loadBruteForce();
-    // TODO: reduce polling intervals — 10s for events and 30s for stats feels slow during active attacks
-    setInterval(loadEvents, 10000);
-    setInterval(loadTopCredentials, 30000);
-    setInterval(loadBruteForce, 30000);
+    setInterval(loadEvents, 5000);
+    setInterval(loadTopCredentials, 15000);
+    setInterval(loadBruteForce, 15000);
   </script>
 
 </body>
